@@ -1,4 +1,6 @@
 const User = require('../models/User.model')
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -99,6 +101,9 @@ const createUser = (req, res, next) => {
     body.admin = body.admin || false;
     body.created_at = new Date();
     body.updated_at = new Date();
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(body.password, salt);
+    body.password = hash;
 
     let user = new User(body);
     user.save((error, response) => {
@@ -169,6 +174,9 @@ const resetpassowrd = (req, res, next) => {
         return res.status(403).send({ error: checkValid });
     }
 
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(body.password, salt);
+
     body.updated_at = new Date();
 
     User.updateOne({
@@ -176,7 +184,7 @@ const resetpassowrd = (req, res, next) => {
     },
         {
             $set: {
-                password: body.password,
+                password: hash,
                 updated_at: body.updated_at
             }
         },
