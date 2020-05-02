@@ -1,5 +1,47 @@
 const Meal = require('../models/Meal.model');
 
+const getCurrDate = (customDate) => {
+    let d = new Date();
+    if(customDate) {
+        d = new Date(customDate);
+    }
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+};
+
+const isValid = (obj) => {
+    if(!obj.user_id) {
+        return {
+            error: true,
+            message: "Invalid user"
+        }
+    }
+
+    if(!obj.name) {
+        return {
+            error: true,
+            message: "Meal name is emoty."
+        }
+    }
+
+    if(!obj.calories) {
+        return {
+            error: true,
+            message: "Calory is empty."
+        }
+    }
+
+    if(obj.calories < 0) {
+        return {
+            error: true,
+            message: "Calory must be greater than 0."
+        }
+    }
+
+    return {
+        error: false
+    };
+};
+
 const getMeals = (req, res, next) => {
     let { user_id } = req.params;
 
@@ -26,15 +68,26 @@ const addMeals = (req, res, next) => {
     let {
         name,
         calories,
-        userId
+        user_id
     } = req.body;
 
-    let meal = new Meal({
+    let data = {
         name,
         calories,
-        userId,
-        created_at: new Date(),
-        updated_at: new Date()
+        user_id
+    };
+
+    let checkIfValid = isValid(data);
+
+    if(checkIfValid.error) {
+        res.status(401).send({ error: checkIfValid });
+        return;
+    }
+
+    let meal = new Meal({
+        ...data,
+        created_at: getCurrDate(),
+        updated_at: getCurrDate()
     });
 
     meal.save((err, meal) => {
@@ -47,9 +100,17 @@ const addMeals = (req, res, next) => {
 
 const updateMeals = (req, res, next) => {
     let meal = req.body;
-    meal.updated_at = new Date();
+    meal.updated_at = getCurrDate();
+    meal.created_at = getCurrDate();
     
-    Meal.update({ _id: meal._id },
+    let checkIfValid = isValid(meal);
+
+    if(checkIfValid.error) {
+        res.status(401).send({ error: checkIfValid });
+        return;
+    }
+
+    Meal.updateOne({ _id: meal._id },
         meal,
         (err, meal) => {
             if (err) {
@@ -75,14 +136,14 @@ const getAllMeals = (req, res, next) => {
     let filterQuery = {};
     
     if(query.user_id) {
-        filterQuery.user_id = user_id;
+        filterQuery.user_id = query.user_id;
     }
 
     if(query.from && query.to) {
-        filterQuery.created_on = {"$gte": query.from, "$lt": query.to};
+        filterQuery.created_at = {"$gte": new Date(query.from), "$lt": new Date(query.to)};
     }
 
-    Meal.find(query, (err, meals) => {
+    Meal.find(filterQuery, (err, meals) => {
         if (err) {
             return res.status(404).send({ message: 'Records by filtering not found.' });
         }
