@@ -14,7 +14,7 @@ router.get('/', isAuthenticate, UserController.getUsers);
 router.get('/:_id', UserController.getUser);
 router.post('/', isAuthenticate, UserController.createUser);
 router.put('/', isAuthenticate, UserController.updateUser);
-router.delete('/_id', isAuthenticate, UserController.deleteUser);
+router.delete('/:_id', isAuthenticate, UserController.deleteUser);
 router.put('/change-password/', UserController.resetpassowrd);
 
 module.exports = router;
