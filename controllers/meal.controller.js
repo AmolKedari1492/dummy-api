@@ -111,7 +111,13 @@ const updateMeals = (req, res, next) => {
     }
 
     Meal.updateOne({ _id: meal._id },
-        meal,
+        {
+            $set: {
+                name: meal.name,
+                calories: meal.calories,
+                updated_at: meal.updated_at
+            }
+        },
         (err, meal) => {
             if (err) {
                 return res.status(404).send({ message: 'Failed to update a meal' });
