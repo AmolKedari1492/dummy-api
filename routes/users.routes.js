@@ -11,7 +11,7 @@ const isAuthenticate = (req, res, next) => {
 };
 
 router.get('/', isAuthenticate, UserController.getUsers);
-router.get('/:_id', isAuthenticate, isAuthenticate, UserController.getUser);
+router.get('/:_id', UserController.getUser);
 router.post('/', isAuthenticate, UserController.createUser);
 router.put('/', isAuthenticate, UserController.updateUser);
 router.delete('/_id', isAuthenticate, UserController.deleteUser);

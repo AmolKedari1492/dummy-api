@@ -35,8 +35,8 @@ const isAuthenticate = (req, res, next) => {
 const userRouter = require("./routes/users.routes");
 const mealRouter = require("./routes/meals.routes");
 
-app.use('/users', userRouter);
-app.use('/meals', isAuthenticate, mealRouter);
+app.use('/api/users', userRouter);
+app.use('/api/meals', isAuthenticate, mealRouter);
 
 // Connect to database
 const url = "mongodb://admin:a123456@ds161164.mlab.com:61164/heroku_rbw8gljj";
@@ -65,7 +65,7 @@ app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
 });
 
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     let { email, password } = req.body;
 
     User.findOne({
@@ -87,6 +87,7 @@ app.post('/login', (req, res) => {
             }
 
             let endUser = {
+                _id: user._id,
                 name: user.name,
                 email: user.email,
                 admin: user.admin,
@@ -101,7 +102,7 @@ app.post('/login', (req, res) => {
     )
 });
 
-app.get('/logout', (req, res) => {
+app.get('/api/logout', (req, res) => {
     req.session.email = null;
     req.session.admin = null;
     req.session.user_id = null;
