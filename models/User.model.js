@@ -7,7 +7,7 @@ var userSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   admin: Boolean,
-  monthlyTarget: Number,
+  dailyTarget: Number,
   created_at: Date,
   updated_at: Date
 });

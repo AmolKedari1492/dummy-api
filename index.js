@@ -94,7 +94,7 @@ app.post('/api/login', (req, res) => {
                 name: user.name,
                 email: user.email,
                 admin: user.admin,
-                monthlyTarget: user.monthlyTarget
+                dailyTarget: user.dailyTarget
             };
 
             // Create a session
