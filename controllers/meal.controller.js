@@ -1,5 +1,6 @@
 const Meal = require('../models/Meal.model');
 
+// Get date in proper format
 const getCurrDate = (customDate) => {
     let d = new Date();
     if(customDate) {
@@ -8,6 +9,7 @@ const getCurrDate = (customDate) => {
     return new Date(d.getFullYear(), d.getMonth(), d.getDate());
 };
 
+// Validate data
 const isValid = (obj) => {
     if(!obj.user_id) {
         return {
@@ -42,6 +44,7 @@ const isValid = (obj) => {
     };
 };
 
+// Get all meals list
 const getMeals = (req, res, next) => {
     let { user_id } = req.params;
 
@@ -53,6 +56,7 @@ const getMeals = (req, res, next) => {
     });
 };
 
+// Get meal by id
 const getMeal = (req, res, next) => {
     let { _id } = req.params;
 
@@ -64,6 +68,7 @@ const getMeal = (req, res, next) => {
     });
 };
 
+// Create a new meal
 const addMeals = (req, res, next) => {
     let {
         name,
@@ -98,6 +103,7 @@ const addMeals = (req, res, next) => {
     });
 };
 
+// Update a meal by id
 const updateMeals = (req, res, next) => {
     let meal = req.body;
     meal.updated_at = getCurrDate();
@@ -126,6 +132,7 @@ const updateMeals = (req, res, next) => {
         });
 };
 
+// Delete a meal
 const deleteMeals = (req, res, next) => {
     let { _id } = req.params;
 
@@ -137,6 +144,7 @@ const deleteMeals = (req, res, next) => {
     });
 };
 
+// Get all meals by filter
 const getAllMeals = (req, res, next) => {
     let {query} = req;
     let filterQuery = {};

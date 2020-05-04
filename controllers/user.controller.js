@@ -2,11 +2,13 @@ const User = require('../models/User.model')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+// Check for valid email
 const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 };
 
+// Password validation
 const checkIfPasswordEmpty = (data) => {
     if (!data.password) {
         return {
@@ -20,6 +22,7 @@ const checkIfPasswordEmpty = (data) => {
     };
 };
 
+// User data validation
 const isDataValid = (data) => {
     if (!data.name) {
         return {
@@ -61,6 +64,7 @@ const isDataValid = (data) => {
     };
 };
 
+// Get users list
 const getUsers = (req, res, next) => {
     User.find({},
         { name: 1, email: 1, admin: 1, monthlyTarget: 1 },
@@ -72,6 +76,7 @@ const getUsers = (req, res, next) => {
         });
 };
 
+// Get user by id
 const getUser = (req, res, next) => {
     let { _id } = req.params;
     User.findOne({ _id },
@@ -84,6 +89,7 @@ const getUser = (req, res, next) => {
         });
 };
 
+// Create new user
 const createUser = (req, res, next) => {
     let { body } = req;
 
@@ -101,6 +107,8 @@ const createUser = (req, res, next) => {
     body.admin = body.admin || false;
     body.created_at = new Date();
     body.updated_at = new Date();
+
+    // Bcrypt user password
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(body.password, salt);
     body.password = hash;
@@ -122,6 +130,7 @@ const createUser = (req, res, next) => {
     });
 };
 
+// Update user by id excluding password field
 const updateUser = (req, res, next) => {
     let { body } = req;
 
@@ -154,6 +163,7 @@ const updateUser = (req, res, next) => {
     )
 };
 
+// Delete a user by id
 const deleteUser = (req, res, next) => {
     let { _id } = req.params;
     User.findOneAndRemove({ _id },
@@ -165,6 +175,7 @@ const deleteUser = (req, res, next) => {
         });
 };
 
+// Reset a password for reset and forgot password 
 const resetpassowrd = (req, res, next) => {
     let { body } = req;
 
@@ -174,6 +185,7 @@ const resetpassowrd = (req, res, next) => {
         return res.status(403).send({ error: checkValid });
     }
 
+    // Bcrypt user password
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(body.password, salt);
 

@@ -4,6 +4,7 @@ const router = express.Router();
 
 const MealController = require('../controllers/meal.controller');
 
+// Meal CRUD API
 router.get('/', MealController.getMeals);
 router.get('/:_id', MealController.getMeal);
 router.post('/', MealController.addMeals);

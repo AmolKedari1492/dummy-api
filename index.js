@@ -65,6 +65,8 @@ app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
 });
 
+
+// User login API
 app.post('/api/login', (req, res) => {
     let { email, password } = req.body;
 
@@ -80,6 +82,7 @@ app.post('/api/login', (req, res) => {
                 return res.status(404).send({ message: "user not found" })
             }
 
+            // Compare user password with actual password
             let isPasswordCorrect = bcrypt.compareSync(password, user.password);
 
             if(!isPasswordCorrect) {
@@ -94,6 +97,7 @@ app.post('/api/login', (req, res) => {
                 monthlyTarget: user.monthlyTarget
             };
 
+            // Create a session
             req.session.email = user.email;
             req.session.admin = user.admin;
             req.session.user_id = user._id;
@@ -102,7 +106,10 @@ app.post('/api/login', (req, res) => {
     )
 });
 
+
+// User logout API
 app.get('/api/logout', (req, res) => {
+    // Clear session
     req.session.email = null;
     req.session.admin = null;
     req.session.user_id = null;

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const UserController = require('../controllers/user.controller');
+
 // Check for authenticate user
 const isAuthenticate = (req, res, next) => {
     if (req.session && req.session.user_id) {
@@ -10,6 +11,7 @@ const isAuthenticate = (req, res, next) => {
     return res.status(401).send({ message: "Not a valid user." });
 };
 
+// Meal User API
 router.get('/', isAuthenticate, UserController.getUsers);
 router.get('/:_id', UserController.getUser);
 router.post('/', isAuthenticate, UserController.createUser);
