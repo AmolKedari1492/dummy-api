@@ -1,5 +1,5 @@
 {
-  "name": "health-tracker-api",
+  "name": "dummy-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,8 +8,8 @@
     "dev": "nodemon ./index.js"
   },
   "keywords": [
-    "health",
-    "health-tracker"
+    "api",
+    "dummy-api"
   ],
   "author": "amol-kedari",
   "license": "ISC",
