@@ -45,20 +45,6 @@ const isDataValid = (data) => {
         };
     }
 
-    if (!data.dailyTarget) {
-        return {
-            error: true,
-            message: "Target is empty."
-        };
-    }
-
-    if (data.dailyTarget < 0) {
-        return {
-            error: true,
-            message: "Target cannot be zero."
-        };
-    }
-
     return {
         error: false
     };
@@ -67,7 +53,7 @@ const isDataValid = (data) => {
 // Get users list
 const getUsers = (req, res, next) => {
     User.find({},
-        { name: 1, email: 1, admin: 1, dailyTarget: 1 },
+        { name: 1, email: 1, admin: 1 },
         (error, users) => {
             if (error) {
                 return res.status(404).send({ message: "Records not found" })
@@ -80,7 +66,7 @@ const getUsers = (req, res, next) => {
 const getUser = (req, res, next) => {
     let { _id } = req.params;
     User.findOne({ _id },
-        { name: 1, email: 1, admin: 1, dailyTarget: 1 },
+        { name: 1, email: 1, admin: 1},
         (error, user) => {
             if (error) {
                 return res.status(404).send({ message: "user not found" })
@@ -122,8 +108,7 @@ const createUser = (req, res, next) => {
         let userBody = {
             name: response.name,
             email: response.email,
-            admin: response.admin,
-            dailyTarget: response.dailyTarget
+            admin: response.admin
         };
 
         return res.send({ user: response });
@@ -150,7 +135,6 @@ const updateUser = (req, res, next) => {
                 name: body.name,
                 email: body.email,
                 admin: body.admin,
-                dailyTarget: body.dailyTarget,
                 updated_at: body.updated_at
             }
         },

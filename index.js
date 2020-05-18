@@ -41,7 +41,8 @@ app.use('/api/meals', isAuthenticate, mealRouter);
 app.use('/api/tickets', ticketsRouter);
 
 // Connect to database
-const url = "mongodb://admin:a123456@ds161164.mlab.com:61164/heroku_rbw8gljj";
+// const url = "mongodb://admin:a123456@ds161164.mlab.com:61164/heroku_rbw8gljj";
+const url = 'mongodb+srv://test:test@cluster0-4t9bz.azure.mongodb.net/test?retryWrites=true&w=majority';
 
 mongoose.connect(url,
     {
