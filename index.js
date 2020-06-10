@@ -35,10 +35,12 @@ const isAuthenticate = (req, res, next) => {
 const userRouter = require("./routes/users.routes");
 const mealRouter = require("./routes/meals.routes");
 const ticketsRouter = require("./routes/tickets.routes");
+const fakeRouter = require("./routes/fake.routes");
 
 app.use('/api/users', userRouter);
 app.use('/api/meals', isAuthenticate, mealRouter);
 app.use('/api/tickets', ticketsRouter);
+app.use('/api/fake', fakeRouter);
 
 // Connect to database
 // const url = "mongodb://admin:a123456@ds161164.mlab.com:61164/heroku_rbw8gljj";
