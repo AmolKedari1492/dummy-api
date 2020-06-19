@@ -43,8 +43,7 @@ app.use('/api/tickets', ticketsRouter);
 app.use('/api/fake', fakeRouter);
 
 // Connect to database
-// const url = "mongodb://admin:a123456@ds161164.mlab.com:61164/heroku_rbw8gljj";
-const url = 'mongodb+srv://test:test@cluster0-4t9bz.azure.mongodb.net/test?retryWrites=true&w=majority';
+const url = process.env.DATABASE_URL;
 
 mongoose.connect(url,
     {
