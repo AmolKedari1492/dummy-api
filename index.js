@@ -36,11 +36,13 @@ const userRouter = require("./routes/users.routes");
 const mealRouter = require("./routes/meals.routes");
 const ticketsRouter = require("./routes/tickets.routes");
 const fakeRouter = require("./routes/fake.routes");
+const tasksRouter = require("./routes/tasks.routes");
 
 app.use('/api/users', userRouter);
 app.use('/api/meals', isAuthenticate, mealRouter);
 app.use('/api/tickets', ticketsRouter);
 app.use('/api/fake', fakeRouter);
+app.use('/api/task', tasksRouter);
 
 // Connect to database
 const url = process.env.DATABASE_URL;
