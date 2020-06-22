@@ -11,7 +11,7 @@ router.post('/', TaskController.addTasks);
 router.put('/', TaskController.updateTasks);
 router.delete('/:_id', TaskController.deleteTasks);
 router.get('/master/list', TaskController.getMaster);
-router.post('/master/', TaskController.createMaster);
+router.post('/master/list', TaskController.createMaster);
 router.delete('/master/:_id', TaskController.deleteMaster);
 
 module.exports = router;
