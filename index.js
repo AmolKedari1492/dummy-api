@@ -7,11 +7,12 @@ const app = express();
 const port = process.env.PORT || "8000";
 const User = require('./models/User.model');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 // User session added
 app.use(session({
-    name: 'healthapp',
-    secret: 'healthapp',
+    name: 'dummyapiapp',
+    secret: 'dummyapiapp',
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 6 * 60 * 60 * 1000 }
@@ -22,6 +23,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.raw({ limit: '5mb' }));
+app.use(cors());
 
 // Check for authenticate user
 const isAuthenticate = (req, res, next) => {
@@ -63,7 +65,7 @@ mongoose.connection.on("connected", (err, res) => {
 
 // Base router
 app.get("/", (req, res) => {
-    return res.status(200).send("Health tracking app");
+    return res.status(200).send("dummyapi  app");
 });
 
 // Listen to the port

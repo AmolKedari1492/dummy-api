@@ -1,4 +1,4 @@
-# Project name: health-tracker-api
+# Project name: dummyapi-app
 # Server tech: NodeJS, Express 
 # Database: MongoDB (remote)
 
