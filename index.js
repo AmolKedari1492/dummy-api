@@ -41,7 +41,7 @@ const fakeRouter = require("./routes/fake.routes");
 const tasksRouter = require("./routes/tasks.routes");
 
 app.use('/api/users', userRouter);
-app.use('/api/meals', isAuthenticate, mealRouter);
+app.use('/api/meals', mealRouter);
 app.use('/api/tickets', ticketsRouter);
 app.use('/api/fake', fakeRouter);
 app.use('/api/task', tasksRouter);
