@@ -3,7 +3,7 @@ const path = require("path");
 const mongoose = require('mongoose');
 const session = require('express-session');
 const server = require('http').createServer();
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, { origins: '*:*'});
 
 const app = express();
 const port = process.env.PORT || "8000";
