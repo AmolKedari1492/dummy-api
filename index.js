@@ -2,7 +2,18 @@ const express = require("express");
 const path = require("path");
 const mongoose = require('mongoose');
 const session = require('express-session');
-const server = require('http').createServer();
+const server = require('http').createServer(function(req,res){
+	// Set CORS headers
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Request-Method', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+	res.setHeader('Access-Control-Allow-Headers', '*');
+	if ( req.method === 'OPTIONS' ) {
+		res.writeHead(200);
+		res.end();
+		return;
+	}
+});
 const io = require('socket.io')(server);
 
 const app = express();
@@ -141,6 +152,6 @@ io.on('connection', (socket) => {
     socket.emit('test', {test: "test"});
 });
 
-server.listen(port, () => {
-    console.log('Socket server listening on port ' + port);
+server.listen(8081, () => {
+    console.log('Socket server listening on port ' + 8081);
 });
