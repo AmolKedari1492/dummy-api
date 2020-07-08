@@ -82,9 +82,9 @@ app.get("/", (req, res) => {
 });
 
 // Listen to the port
-// app.listen(port, () => {
-    // console.log(`Listening to requests on http://localhost:${port}`);
-// });
+app.listen(port, () => {
+    console.log(`Listening to requests on http://localhost:${port}`);
+});
 
 
 // User login API
@@ -152,6 +152,6 @@ io.on('connection', (socket) => {
     socket.emit('test', {test: "test"});
 });
 
-server.listen(port, () => {
+server.listen(8081, () => {
     console.log('Socket server listening on port ' + 8081);
 });
