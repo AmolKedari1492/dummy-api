@@ -3,7 +3,7 @@ const path = require("path");
 const mongoose = require('mongoose');
 const session = require('express-session');
 const server = require('http').createServer();
-const io = require('socket.io')(server, { origins: '*:*'});
+const io = require('socket.io')(server);
 
 const app = express();
 const port = process.env.PORT || "8000";
@@ -127,6 +127,10 @@ app.get('/api/logout', (req, res) => {
 });
 
 
+
+// Set Access control
+io.origins('*:*')
+
 // Socket io implementation
 io.on('connection', (socket) => {
     console.log("connection establish")
@@ -137,6 +141,6 @@ io.on('connection', (socket) => {
     socket.emit('test', {test: "test"});
 });
 
-server.listen(8081, () => {
-    console.log('Socket server listening on port ' + 8081);
+server.listen(port, () => {
+    console.log('Socket server listening on port ' + port);
 });
