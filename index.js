@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const mongoose = require('mongoose');
 const session = require('express-session');
+const server = require('http').createServer();
+const io = require('socket.io')(server);
 
 const app = express();
 const port = process.env.PORT || "8000";
@@ -93,7 +95,7 @@ app.post('/api/login', (req, res) => {
             // Compare user password with actual password
             let isPasswordCorrect = bcrypt.compareSync(password, user.password);
 
-            if(!isPasswordCorrect) {
+            if (!isPasswordCorrect) {
                 return res.status(404).send({ message: "Password is not correct." })
             }
 
@@ -124,3 +126,17 @@ app.get('/api/logout', (req, res) => {
     return res.send({ message: "success" });
 });
 
+
+// Socket io implementation
+io.on('connection', (socket) => {
+    console.log("connection establish")
+    socket.on('test', function (data) {
+        socket.emit({data});
+    });
+
+    socket.emit('test', {test: "test"});
+});
+
+server.listen(8081, () => {
+    console.log('Socket server listening on port ' + 8081);
+});
