@@ -1,3 +1,5 @@
+const axios  = require('axios');
+
 const getAirlines = (req, res) => {
     const data = [
         {
@@ -162,6 +164,30 @@ const getAirlines = (req, res) => {
     return res.send(filterData);
 }
 
+const getBlogs = (req, res) => {
+    let queryParams = req.query;
+    axios.get("https://public-api.wordpress.com/rest/v1.1/sites/en.blog.wordpress.com/posts/", {
+        params: queryParams
+    })
+    .then((resp) => {
+        res.status(200).send(resp.data)
+    }, (error) => {
+        res.status(400).send(error)
+    });
+};
+
+const getBlog = (req, res) => {
+    let id = req.params.id
+    axios.get(`https://public-api.wordpress.com/rest/v1.1/sites/en.blog.wordpress.com/posts/${id}`)
+    .then((resp) => {
+        res.status(200).send(resp.data)
+    }, (error) => {
+        res.status(400).send(error)
+    });    
+};
+
 module.exports = {
-    getAirlines
+    getAirlines,
+    getBlogs,
+    getBlog
 }
