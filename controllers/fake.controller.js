@@ -186,8 +186,20 @@ const getBlog = (req, res) => {
     });    
 };
 
+const getRelatedBlog  = (req, res) => {
+    let id = req.params.id;
+
+    axios.get(`https://public-api.wordpress.com/rest/v1/sites/107403796/posts/${id}/related`)
+    .then((resp) => {
+        res.status(200).send(resp.data)
+    }, (error) => {
+        res.status(400).send(error)
+    });
+};
+
 module.exports = {
     getAirlines,
     getBlogs,
-    getBlog
+    getBlog,
+    getRelatedBlog
 }

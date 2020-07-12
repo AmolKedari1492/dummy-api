@@ -8,5 +8,6 @@ const FakeAPIController = require('../controllers/fake.controller');
 router.get('/airlines', FakeAPIController.getAirlines);
 router.get('/trueblogs', FakeAPIController.getBlogs);
 router.get('/trueblogs/:id', FakeAPIController.getBlog);
+router.get('/trueblogs/:id/related', FakeAPIController.getRelatedBlog);
 
 module.exports = router;
